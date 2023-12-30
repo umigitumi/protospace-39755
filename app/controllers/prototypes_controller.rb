@@ -1,6 +1,6 @@
 class PrototypesController < ApplicationController
 
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: [:index, :show, :new]
   before_action :move_to_index, except: [:index, :show]
 
   def index
@@ -8,7 +8,10 @@ class PrototypesController < ApplicationController
   end
 
   def create
-    if Prototype.create(prototype_params)
+    #if Prototype.create(prototype_params)
+      #redirect_to root_path
+    @create = Prototype.new(prototype_params)
+    if @create.save
       redirect_to root_path
     else
       render :new, status: :unprocessable_entity
@@ -34,7 +37,7 @@ class PrototypesController < ApplicationController
     if  prototype.update(prototype_params)
         redirect_to prototype_path
     else
-      render :edit, status: :unprocessable_entity
+      render :edit
     end
   end
 
